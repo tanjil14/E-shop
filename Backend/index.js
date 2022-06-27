@@ -1,9 +1,9 @@
-const express = require("express");
-const env = require("./config/envConfig");
-const connect = require("./config/db");
 const cors = require("cors");
+const express = require("express");
+const connect = require("./config/db");
+const authRoute = require("./routes/auth");
+const env = require("./config/envConfig");
 const app = express();
-console.log(env);
 app.get("/", (req, res) => {
   res.json({ msg: "Welcome to E-shop" });
 });
@@ -11,6 +11,9 @@ const port = env.PORT || 6000;
 
 //middleware
 app.use(cors());
+app.use(express.json());
+
+app.use("/auth", authRoute);
 app.listen(port, () => {
   connect();
   console.log(`Server is running at port number: ${port}`);
