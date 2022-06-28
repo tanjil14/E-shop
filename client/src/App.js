@@ -1,12 +1,7 @@
+import Routing from "./routes/Routing";
 
 function App() {
-  return (
-    <div className="bg-black">
-      <header className="App-header">
-       Hello
-      </header>
-    </div>
-  );
+  return <Routing />;
 }
 
 export default App;
