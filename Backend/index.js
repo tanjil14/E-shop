@@ -13,7 +13,7 @@ const port = env.PORT || 6000;
 app.use(cors());
 app.use(express.json());
 
-app.use("/auth", authRoute);
+app.use("/api", authRoute);
 app.listen(port, () => {
   connect();
   console.log(`Server is running at port number: ${port}`);
