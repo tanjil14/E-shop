@@ -7,6 +7,8 @@ const authService = createApi({
   }),
   endpoints: (builder) => {
     return {
+      //hook
+      // useAuthLoginMutation
       authLogin: builder.mutation({
         query: (LoginData) => {
           return {
@@ -19,5 +21,5 @@ const authService = createApi({
     };
   },
 });
-
+export const { useAuthLoginMutation } = authService;
 export default authService;
