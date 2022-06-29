@@ -1,7 +1,12 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setAdminToken } from "../../store/reducers/authReducer";
 import { useAuthLoginMutation } from "../../store/services/authServices";
 
 const AdminLogin = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -10,15 +15,23 @@ const AdminLogin = () => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
   const [login, response] = useAuthLoginMutation();
-  // console.log("My response", response);
+  console.log("My response", response);
   const errors = response?.error?.data?.errors
     ? response?.error?.data?.errors
     : [];
   const handleSubmit = (e) => {
     e.preventDefault();
     login(data);
-    console.log("click")
+    console.log("click");
   };
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (response.isSuccess) {
+      localStorage.setItem("admin-token", response?.data?.token);
+      dispatch(setAdminToken(response?.data?.token));
+      navigate("/dashboard/products");
+    }
+  }, [response.isSuccess]);
   return (
     <div className="bg-black1 h-screen flex justify-center items-center">
       <form
@@ -31,7 +44,9 @@ const AdminLogin = () => {
         {errors.length > 0 &&
           errors.map((error, key) => (
             <div key={key}>
-              <p className="bg-red-100 text-red-700 p-3 mb-2 rounded-sm text-sm font-medium">{error.msg}</p>
+              <p className="bg-red-100 text-red-700 p-3 mb-2 rounded-sm text-sm font-medium">
+                {error.msg}
+              </p>
             </div>
           ))}
         <div className="mb-3 mt-3">
