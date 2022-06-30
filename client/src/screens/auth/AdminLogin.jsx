@@ -15,14 +15,12 @@ const AdminLogin = () => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
   const [login, response] = useAuthLoginMutation();
-  console.log("My response", response);
   const errors = response?.error?.data?.errors
     ? response?.error?.data?.errors
     : [];
   const handleSubmit = (e) => {
     e.preventDefault();
     login(data);
-    console.log("click");
   };
   const dispatch = useDispatch();
   useEffect(() => {
@@ -44,7 +42,7 @@ const AdminLogin = () => {
         {errors.length > 0 &&
           errors.map((error, key) => (
             <div key={key}>
-              <p className="bg-red-100 text-red-700 p-3 mb-2 rounded-sm text-sm font-medium">
+              <p className="alert-danger">
                 {error.msg}
               </p>
             </div>

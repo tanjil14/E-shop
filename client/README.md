@@ -7,3 +7,4 @@
 - implement private route
 - create public route and sidebar components
 - implement logout for logout create reducer and check validity token by using jwt-decode
+- implement add category
