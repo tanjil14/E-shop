@@ -8,7 +8,7 @@ module.exports.hashedPassword = (password) => {
 };
 
 module.exports.createToken = (user) => {
-  return jwt.sign(user, JWT_SECRET, { expiresIn: "7d" });
+  return jwt.sign(user, JWT_SECRET, { expiresIn: "1d" });
 };
 
 module.exports.comparePassword = async (pass, dbPass) => {
