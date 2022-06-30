@@ -8,7 +8,9 @@ module.exports.createCategory = async (req, res) => {
       const exist = await Categories.findOne({ name });
       if (!exist) {
         await Categories.create({ name });
-        return res.status(201).send({ msg: "Category has been created." });
+        return res
+          .status(201)
+          .send({ msg: "Your category has been created successfully!" });
       } else {
         return res
           .status(401)

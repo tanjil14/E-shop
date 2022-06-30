@@ -1,13 +1,16 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import ScreenHeader from "../../components/ScreenHeader";
+import { setSuccess } from "../../store/reducers/globalReducer";
 import { useCreateCategoryMutation } from "../../store/services/categoryServices";
 import Wrapper from "./Wrapper";
 const CreateCategory = () => {
   const [state, setState] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [createCategory, response] = useCreateCategoryMutation();
+  console.log(response);
   const errors = response?.error?.data?.errors
     ? response?.error?.data?.errors
     : [];
@@ -17,6 +20,7 @@ const CreateCategory = () => {
   };
   useEffect(() => {
     if (response?.isSuccess) {
+      dispatch(setSuccess(response?.data?.msg));
       navigate("/dashboard/categories");
     }
   }, [response?.isSuccess]);
