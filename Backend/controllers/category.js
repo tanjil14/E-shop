@@ -24,3 +24,26 @@ module.exports.createCategory = async (req, res) => {
     return res.status(401).json({ errors: errors.array() });
   }
 };
+module.exports.categories = async (req, res) => {
+  const page = req.params.page;
+  const perPage = 3;
+  const skip = (page - 1) * perPage;
+  try {
+    const count = await Categories.find({}).countDocuments();
+    const response = await Categories.find({})
+      .skip(skip)
+      .limit(perPage)
+      .sort({ updatedAt: -1 });
+    return res.status(200).json({ categories: response, perPage, count });
+  } catch (error) {
+    return res.status(500).json("Server internal error!");
+  }
+};
+module.exports.allCategories = async (req, res) => {
+  try {
+    const categories = await Categories.find({});
+    return res.status(200).json({ categories });
+  } catch (error) {
+    return res.status(500).json("Server internal error!");
+  }
+};

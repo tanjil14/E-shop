@@ -10,7 +10,6 @@ const CreateCategory = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [createCategory, response] = useCreateCategoryMutation();
-  console.log(response);
   const errors = response?.error?.data?.errors
     ? response?.error?.data?.errors
     : [];

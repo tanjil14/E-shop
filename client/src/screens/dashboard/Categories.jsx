@@ -11,7 +11,6 @@ const Categories = () => {
     dispatch(setSuccess(success));
     return () => {
       dispatch(clearMessage());
-      console.log("cl");
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
