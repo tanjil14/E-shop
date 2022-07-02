@@ -11,12 +11,18 @@ const Pagination = ({ page, count, perPage, path }) => {
   if (startLoop <= 0) {
     startLoop = 1;
   }
+  console.log(startLoop, endLoop);
   const links = () => {
     const allLinks = [];
     for (let i = startLoop; i <= endLoop; i++) {
       allLinks.push(
         <li key={i}>
-          <Link to={`/${path}/${i}`} className="pagination-link">
+          <Link
+            to={`/${path}/${i}`}
+            className={`pagination-link  ${
+              page === i && "bg-gray-400 text-gray-900"
+            }`}
+          >
             {i}
           </Link>
         </li>
@@ -48,7 +54,7 @@ const Pagination = ({ page, count, perPage, path }) => {
   };
   return (
     count > perPage && (
-      <ul className="flex mt-2">
+      <ul className="flex mt-2 justify-end">
         {prev()}
         {links()}
         {next()}

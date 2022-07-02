@@ -39,6 +39,16 @@ module.exports.categories = async (req, res) => {
     return res.status(500).json("Server internal error!");
   }
 };
+module.exports.fetchCategory = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const response = await Categories.findOne({ _id: id });
+    return res.status(200).json({ category: response });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json("Server internal error!");
+  }
+};
 module.exports.allCategories = async (req, res) => {
   try {
     const categories = await Categories.find({});

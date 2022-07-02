@@ -13,8 +13,8 @@ const Categories = () => {
   if (!page) {
     page = 1;
   }
-  const { data = [], isLoading } = useGetCategoryQuery(page);
-  console.log(data, isLoading);
+  const { data = [], isFetching } = useGetCategoryQuery(page);
+  console.log(data, isFetching);
   const { success } = useSelector((state) => state.globalReducer);
   useEffect(() => {
     dispatch(setSuccess(success));
@@ -30,7 +30,7 @@ const Categories = () => {
         </Link>
       </ScreenHeader>
       {success && <div className="alert-success">{success}</div>}
-      {!isLoading ? (
+      {!isFetching ? (
         data?.categories?.length > 0 && (
           <>
             <div>
@@ -55,7 +55,7 @@ const Categories = () => {
                         {category.name}
                       </td>
                       <td className="p-3 capitalize text-sm font-normal text-gray-400">
-                        edit
+                        <Link to={`/dashboard/update-category/${category._id}`}className="btn btn-warning">edit</Link>
                       </td>
                       <td className="p-3 capitalize text-sm font-normal text-gray-400">
                         delete
