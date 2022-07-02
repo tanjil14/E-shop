@@ -9,3 +9,5 @@
 - implement logout for logout create reducer and check validity token by using jwt-decode
 - implement add category
 - store success message in redux store and display to the client and remove msg when route is changed
+- get categories and pagination
+- create table for show data and latest data visible by using redux refetch

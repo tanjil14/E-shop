@@ -8,7 +8,7 @@ const { authorization } = require("../services/authorization");
 const categoryValidations = require("../validations/categoryValidations");
 const router = express.Router();
 
-router.get("/categories/:page", categories);
+router.get("/categories/:page", authorization, categories);
 router.get("/categories", allCategories);
 router.post(
   "/create-category",

@@ -1,18 +1,22 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ScreenHeader from "../../components/ScreenHeader";
+import Spinner from "../../components/Spinner";
 import { clearMessage, setSuccess } from "../../store/reducers/globalReducer";
+import { useGetCategoryQuery } from "../../store/services/categoryServices";
 import Wrapper from "./Wrapper";
 const Categories = () => {
   const dispatch = useDispatch();
+  const { page } = useParams();
+  const { data = [], isLoading } = useGetCategoryQuery(page ? page : 1);
+  console.log(data, isLoading);
   const { success } = useSelector((state) => state.globalReducer);
   useEffect(() => {
     dispatch(setSuccess(success));
     return () => {
       dispatch(clearMessage());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Wrapper>
@@ -22,10 +26,44 @@ const Categories = () => {
         </Link>
       </ScreenHeader>
       {success && <div className="alert-success">{success}</div>}
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed cum magnam
-      eos fugit consequatur atque quo ipsa accusamus molestias commodi aut
-      eligendi deleniti, aspernatur pariatur ab odio, soluta illum iure at!
-      Repellendus dolor explicabo veniam
+      {!isLoading ? (
+        data?.categories?.length > 0 && (
+          <div>
+            <table className="w-full bg-gray-900 rounded-sm">
+              <thead>
+                <tr className="border-b border-gray-800 text-left">
+                  <th className="p-3 uppercase text-sm font-medium text-gray-500">
+                    name
+                  </th>
+                  <th className="p-3 uppercase text-sm font-medium text-gray-500">
+                    edit
+                  </th>
+                  <th className="p-3 uppercase text-sm font-medium text-gray-500">
+                    delete
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {data?.categories?.map((category) => (
+                  <tr key={category._id} className="odd:bg-gray-800">
+                    <td className="p-3 capitalize text-sm font-normal text-gray-400">
+                      {category.name}
+                    </td>
+                    <td className="p-3 capitalize text-sm font-normal text-gray-400">
+                      edit
+                    </td>
+                    <td className="p-3 capitalize text-sm font-normal text-gray-400">
+                      delete
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )
+      ) : (
+        <Spinner />
+      )}
     </Wrapper>
   );
 };

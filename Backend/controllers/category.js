@@ -25,9 +25,9 @@ module.exports.createCategory = async (req, res) => {
   }
 };
 module.exports.categories = async (req, res) => {
-  const page = req.params.page;
+  const currentPage = parseInt(req.params.page) || 1;
   const perPage = 3;
-  const skip = (page - 1) * perPage;
+  const skip = currentPage * perPage - perPage;
   try {
     const count = await Categories.find({}).countDocuments();
     const response = await Categories.find({})
