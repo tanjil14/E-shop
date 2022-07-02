@@ -9,11 +9,11 @@ module.exports.createCategory = async (req, res) => {
       if (!exist) {
         await Categories.create({ name });
         return res
-          .status(201)
+          .status(200)
           .send({ msg: "Your category has been created successfully!" });
       } else {
         return res
-          .status(401)
+          .status(400)
           .json({ errors: [{ msg: `${name} category is already exist` }] });
       }
     } catch (error) {
@@ -21,7 +21,7 @@ module.exports.createCategory = async (req, res) => {
       return res.status(500).json("Server internal error!");
     }
   } else {
-    return res.status(401).json({ errors: errors.array() });
+    return res.status(400).json({ errors: errors.array() });
   }
 };
 module.exports.updateCategory = async (req, res) => {
@@ -31,10 +31,7 @@ module.exports.updateCategory = async (req, res) => {
   if (errors.isEmpty()) {
     const exist = await Categories.findOne({ name });
     if (!exist) {
-       await Categories.updateOne(
-        { _id: id },
-        { $set: { name } }
-      );
+      await Categories.updateOne({ _id: id }, { $set: { name } });
       return res
         .status(200)
         .json({ msg: "Your category has updated successfully!" });
@@ -45,6 +42,18 @@ module.exports.updateCategory = async (req, res) => {
     }
   } else {
     return res.status(400).json({ errors: errors.array() });
+  }
+};
+module.exports.deleteCategory = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await Categories.deleteOne({ _id: id });
+    return res
+      .status(200)
+      .json({ msg: "Category has deleted successfully!" });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json("Server internal error!");
   }
 };
 module.exports.categories = async (req, res) => {

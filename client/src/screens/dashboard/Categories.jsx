@@ -5,7 +5,10 @@ import Pagination from "../../components/Pagination";
 import ScreenHeader from "../../components/ScreenHeader";
 import Spinner from "../../components/Spinner";
 import { clearMessage, setSuccess } from "../../store/reducers/globalReducer";
-import { useGetCategoryQuery } from "../../store/services/categoryServices";
+import {
+  useDeleteCategoryMutation,
+  useGetCategoryQuery,
+} from "../../store/services/categoryServices";
 import Wrapper from "./Wrapper";
 const Categories = () => {
   const dispatch = useDispatch();
@@ -14,14 +17,24 @@ const Categories = () => {
     page = 1;
   }
   const { data = [], isFetching } = useGetCategoryQuery(page);
-  console.log(data, isFetching);
+  const [removeCategory, response] = useDeleteCategoryMutation();
   const { success } = useSelector((state) => state.globalReducer);
+  const deleteItem = (id) => {
+    if (window.confirm("Are you really want to delete the category?")) {
+      removeCategory(id);
+    }
+  };
   useEffect(() => {
     dispatch(setSuccess(success));
     return () => {
       dispatch(clearMessage());
     };
   }, []);
+  useEffect(() => {
+    if (response.isSuccess) {
+      dispatch(setSuccess(response?.data?.msg));
+    }
+  }, [response?.data?.msg]);
   return (
     <Wrapper>
       <ScreenHeader>
@@ -55,10 +68,21 @@ const Categories = () => {
                         {category.name}
                       </td>
                       <td className="p-3 capitalize text-sm font-normal text-gray-400">
-                        <Link to={`/dashboard/update-category/${category._id}`}className="btn btn-warning">edit</Link>
+                        <Link
+                          to={`/dashboard/update-category/${category._id}`}
+                          className="btn btn-warning"
+                        >
+                          edit
+                        </Link>
                       </td>
                       <td className="p-3 capitalize text-sm font-normal text-gray-400">
-                        delete
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => deleteItem(category._id)}
+                        >
+                          {" "}
+                          delete
+                        </button>
                       </td>
                     </tr>
                   ))}
