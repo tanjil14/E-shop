@@ -4,6 +4,7 @@ const {
   allCategories,
   categories,
   fetchCategory,
+  updateCategory,
 } = require("../controllers/category");
 const { authorization } = require("../services/authorization");
 const categoryValidations = require("../validations/categoryValidations");
@@ -16,6 +17,11 @@ router.post(
   "/create-category",
   [categoryValidations, authorization],
   createCategory
+);
+router.put(
+  "/update-category/:id",
+  [categoryValidations, authorization],
+  updateCategory
 );
 
 module.exports = router;
