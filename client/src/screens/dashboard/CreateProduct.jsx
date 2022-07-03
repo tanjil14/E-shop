@@ -9,6 +9,7 @@ import ScreenHeader from "../../components/ScreenHeader";
 import SizesList from "../../components/SizesList";
 import Spinner from "../../components/Spinner";
 import { useAllCategoriesQuery } from "../../store/services/categoryServices";
+import { useCreateProductMutation } from "../../store/services/productServices";
 import Wrapper from "./Wrapper";
 const sizes = [
   { name: "xsm" },
@@ -28,7 +29,6 @@ const CreateProduct = () => {
   // 	readonly: false ,
   // 	placeholder: 'Start typings...'
   // })
-  console.log(content);
   const { data = [], isFetching } = useAllCategoriesQuery();
 
   const [state, setState] = useState({
@@ -80,6 +80,17 @@ const CreateProduct = () => {
     const filtered = sizeList.filter((size) => size.name !== name);
     setSizeList(filtered);
   };
+  const [createNewProduct, response] = useCreateProductMutation();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setState({ ...state, description: content, sizes: sizeList });
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(state));
+    formData.append("image1", state.image1);
+    formData.append("image2", state.image2);
+    formData.append("image3", state.image3);
+    createNewProduct(formData);
+  };
   return (
     <Wrapper>
       <ScreenHeader>
@@ -88,7 +99,7 @@ const CreateProduct = () => {
         </Link>
       </ScreenHeader>
       <div className="flex flex-wrap -mx-3">
-        <form className="w-full xl:w-8/12 p-3">
+        <form className="w-full xl:w-8/12 p-3" onSubmit={handleSubmit}>
           <div className="flex flex-wrap">
             <div className="w-full md:w-6/12 p-3">
               <label htmlFor="title" className="label">
@@ -243,11 +254,7 @@ const CreateProduct = () => {
                 onChange={setValue}
                 placeholder="Description..."
               /> */}
-              <RichTextEditor
-                content={content}
-                setContent={setContent}
-                placeholder="Hello"
-              />
+              <RichTextEditor content={content} setContent={setContent} />
             </div>
             <div className="w-full p-3">
               <input
