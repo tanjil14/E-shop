@@ -3,7 +3,7 @@ const SizesList = ({ list, deleteSize }) => {
   return (
     list.length > 0 && (
       <>
-        <h3 className="header-heading">Sizes List</h3>
+        <h3 className="right-heading">Sizes List</h3>
         <div className="flex flex-wrap -mx-2">
           {list.map((size) => (
             <div

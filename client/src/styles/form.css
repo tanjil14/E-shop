@@ -5,3 +5,6 @@
 .label {
   @apply block mb-2 text-base text-gray-400 capitalize;
 }
+.input-file{
+  @apply block file:py-2.5 file:px-4 rounded file:cursor-pointer file:bg-indigo-600 file:text-white file:text-sm file:font-medium;
+}
