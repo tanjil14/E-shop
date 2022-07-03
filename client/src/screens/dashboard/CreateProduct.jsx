@@ -2,6 +2,7 @@ import { useState } from "react";
 import { TwitterPicker } from "react-color";
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import Colors from "../../components/Colors";
 import ScreenHeader from "../../components/ScreenHeader";
 import Spinner from "../../components/Spinner";
 import { useAllCategoriesQuery } from "../../store/services/categoryServices";
@@ -28,7 +29,6 @@ const CreateProduct = () => {
       ...state,
       colors: [...filtered, { color: color.hex, id: uuidv4() }],
     });
-    
   };
   console.log(state.colors);
   return (
@@ -184,7 +184,9 @@ const CreateProduct = () => {
             </div>
           </div>
         </form>
-        <div className="w-full xl:w-4/12 p-3"></div>
+        <div className="w-full xl:w-4/12 p-3">
+          <Colors colors={state.colors} />
+        </div>
       </div>
     </Wrapper>
   );
