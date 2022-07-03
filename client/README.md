@@ -12,3 +12,5 @@
 - get categories and pagination
 - create table for show data and latest data visible by using redux refetch
 - implement pagination logic in client side
+- create product page for create product
+- add color picker using **React Colo**

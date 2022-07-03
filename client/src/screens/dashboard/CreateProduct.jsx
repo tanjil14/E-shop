@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import ScreenHeader from "../../components/ScreenHeader";
 import Spinner from "../../components/Spinner";
@@ -5,6 +6,20 @@ import { useAllCategoriesQuery } from "../../store/services/categoryServices";
 import Wrapper from "./Wrapper";
 const CreateProduct = () => {
   const { data = [], isFetching } = useAllCategoriesQuery();
+  const [state, setState] = useState({
+    title: "",
+    price: 0,
+    discount: 0,
+    stock: 0,
+    category: "",
+    colors: [],
+    image1: "",
+    image2: "",
+    image3: "",
+  });
+  const handleInput = (e) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
   console.log(data, isFetching);
   return (
     <Wrapper>
@@ -26,6 +41,8 @@ const CreateProduct = () => {
                 className="form-control"
                 id="title"
                 placeholder="title..."
+                value={state.title}
+                onChange={handleInput}
               />
             </div>
             <div className="w-full md:w-6/12 p-3">
@@ -38,6 +55,8 @@ const CreateProduct = () => {
                 className="form-control"
                 id="price"
                 placeholder="price..."
+                value={state.price}
+                onChange={handleInput}
               />
             </div>
             <div className="w-full md:w-6/12 p-3">
@@ -50,6 +69,8 @@ const CreateProduct = () => {
                 className="form-control"
                 id="discount"
                 placeholder="discount..."
+                value={state.discount}
+                onChange={handleInput}
               />
             </div>
             <div className="w-full md:w-6/12 p-3">
@@ -62,6 +83,8 @@ const CreateProduct = () => {
                 className="form-control"
                 id="stock"
                 placeholder="stock..."
+                value={state.stock}
+                onChange={handleInput}
               />
             </div>
             <div className="w-full md:w-6/12 p-3">
@@ -74,6 +97,8 @@ const CreateProduct = () => {
                     name="category"
                     id="categories"
                     className="form-control"
+                    value={state.category}
+                    onChange={handleInput}
                   >
                     <option value="">Choose category</option>
                     {data?.categories?.map((category) => (
