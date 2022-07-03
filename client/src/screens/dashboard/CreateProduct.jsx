@@ -4,9 +4,22 @@ import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import Colors from "../../components/Colors";
 import ScreenHeader from "../../components/ScreenHeader";
+import SizesList from "../../components/SizesList";
 import Spinner from "../../components/Spinner";
 import { useAllCategoriesQuery } from "../../store/services/categoryServices";
 import Wrapper from "./Wrapper";
+const sizes = [
+  { name: "xsm" },
+  { name: "sm" },
+  { name: "md" },
+  { name: "lg" },
+  { name: "xl" },
+  { name: "1 year" },
+  { name: "2 years" },
+  { name: "3 years" },
+  { name: "4 years" },
+  { name: "5 years" },
+];
 const CreateProduct = () => {
   const { data = [], isFetching } = useAllCategoriesQuery();
   const [state, setState] = useState({
@@ -20,6 +33,7 @@ const CreateProduct = () => {
     image2: "",
     image3: "",
   });
+  const [sizeList, setSizeList] = useState([]);
   const handleInput = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
@@ -34,6 +48,15 @@ const CreateProduct = () => {
     const filtered = state.colors.filter((clr) => clr.color !== color.color);
     setState({ ...state, colors: filtered });
   };
+  const chooseSize = (sizeObj) => {
+    const filtered = sizeList.filter((size) => size.name !== sizeObj.name);
+    setSizeList([...filtered, sizeObj]);
+  };
+  const deleteSize = (name) => {
+    const filtered = sizeList.filter((size) => size.name !== name);
+    setSizeList(filtered);
+  };
+  console.log(sizeList)
   return (
     <Wrapper>
       <ScreenHeader>
@@ -135,7 +158,19 @@ const CreateProduct = () => {
               <label htmlFor="sizes" className="label">
                 choose sizes
               </label>
-              <div className="flex flex-wrap -mx-3"></div>
+              {sizes && (
+                <div className="flex flex-wrap -mx-3">
+                  {sizes.map((size) => (
+                    <div
+                      key={size.name}
+                      className="size"
+                      onClick={() => chooseSize(size)}
+                    >
+                      {size.name}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="w-full p-3">
@@ -189,6 +224,7 @@ const CreateProduct = () => {
         </form>
         <div className="w-full xl:w-4/12 p-3">
           <Colors colors={state.colors} deleteColor={deleteColor} />
+          <SizesList list={sizeList} deleteSize={deleteSize} />
         </div>
       </div>
     </Wrapper>

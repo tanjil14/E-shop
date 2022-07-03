@@ -18,4 +18,10 @@
   .pagination-link {
     @apply border border-gray-800 text-gray-500 text-sm font-medium block py-2 px-4 bg-gray-900;
   }
+  .size {
+    @apply border border-gray-400 ml-2 px-3 py-1.5 mt-2 uppercase cursor-pointer rounded text-gray-400;
+  }
+  .header-heading {
+    @apply text-white text-2xl capitalize font-medium;
+  }
 }
