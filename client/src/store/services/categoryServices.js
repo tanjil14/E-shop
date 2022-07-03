@@ -66,6 +66,14 @@ const categoryService = createApi({
         },
         invalidatesTags: ["categories"],
       }),
+      allCategories: builder.query({
+        query: () => {
+          return {
+            url: "categories",
+            method: "GET",
+          };
+        },
+      }),
     };
   },
 });
@@ -73,6 +81,7 @@ export const {
   useCreateCategoryMutation,
   useGetCategoryQuery,
   useFetchCategoryQuery,
+  useAllCategoriesQuery,
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
 } = categoryService;

@@ -1,8 +1,13 @@
+import { Link } from "react-router-dom";
+import ScreenHeader from "../../components/ScreenHeader";
 import Wrapper from "./Wrapper";
 
 const Products = () => {
   return (
     <Wrapper>
+      <ScreenHeader>
+      <Link to="/dashboard/create-product" className="btn-dark">create product<i className="bi bi-plus"></i></Link>
+      </ScreenHeader>
       Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed cum magnam
       eos fugit consequatur atque quo ipsa accusamus molestias commodi aut
       eligendi deleniti, aspernatur pariatur ab odio, soluta illum iure at!

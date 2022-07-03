@@ -10,7 +10,7 @@ const CreateProduct = () => {
           <i className="bi bi-arrow-left-short"></i> proudcts list
         </Link>
       </ScreenHeader>
-      <div className="flex flex-wrap ">
+      <div className="flex flex-wrap -mx-3">
         <form className="w-full xl:w-8/12 p-3">
           <div className="flex flex-wrap">
             <div className="w-full md:w-6/12 p-3">
