@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import Colors from "../../components/Colors";
 import ImagesPreview from "../../components/ImagesPreview";
+import RichTextEditor from "../../components/RichTextEditor";
 import ScreenHeader from "../../components/ScreenHeader";
 import SizesList from "../../components/SizesList";
 import Spinner from "../../components/Spinner";
@@ -22,7 +23,14 @@ const sizes = [
   { name: "5 years" },
 ];
 const CreateProduct = () => {
+  const [content, setContent] = useState("");
+  // const config = useMemo({
+  // 	readonly: false ,
+  // 	placeholder: 'Start typings...'
+  // })
+  console.log(content);
   const { data = [], isFetching } = useAllCategoriesQuery();
+
   const [state, setState] = useState({
     title: "",
     price: 0,
@@ -228,7 +236,18 @@ const CreateProduct = () => {
               <label htmlFor="description" className="label">
                 Description
               </label>
-              {/* <ReactQuill theme="snow" id="description" value={value} onChange={setValue}  placeholder="Description..." /> */}
+              {/* <ReactQuill
+                theme="snow"
+                id="description"
+                value={value}
+                onChange={setValue}
+                placeholder="Description..."
+              /> */}
+              <RichTextEditor
+                content={content}
+                setContent={setContent}
+                placeholder="Hello"
+              />
             </div>
             <div className="w-full p-3">
               <input
@@ -243,9 +262,9 @@ const CreateProduct = () => {
         <div className="w-full xl:w-4/12 p-3">
           <Colors colors={state.colors} deleteColor={deleteColor} />
           <SizesList list={sizeList} deleteSize={deleteSize} />
-          <ImagesPreview url={preview.image1} heading="image 1"/>
-          <ImagesPreview url={preview.image2} heading="image 2"/>
-          <ImagesPreview url={preview.image3} heading="image 3"/>
+          <ImagesPreview url={preview.image1} heading="image 1" />
+          <ImagesPreview url={preview.image2} heading="image 2" />
+          <ImagesPreview url={preview.image3} heading="image 3" />
         </div>
       </div>
     </Wrapper>

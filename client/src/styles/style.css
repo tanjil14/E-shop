@@ -21,5 +21,15 @@
   @apply capitalize my-2 text-gray-400 text-base;
 }
 .preview-image {
-  @apply w-full max-h-[190px] h-full rounded-sm overflow-hidden mt-3 ;
+  @apply w-full max-h-[190px] h-full rounded-sm overflow-hidden mt-3;
+}
+.jodit-toolbar__box {
+  @apply border-none bg-gray-400 !important;
+}
+
+.jodit-status-bar {
+  @apply hidden !important;
+}
+.jodit-container {
+  @apply border-none bg-gray-700 !important;
 }
