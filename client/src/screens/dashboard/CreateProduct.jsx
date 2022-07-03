@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { TwitterPicker } from "react-color";
 import { Link } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 import ScreenHeader from "../../components/ScreenHeader";
 import Spinner from "../../components/Spinner";
 import { useAllCategoriesQuery } from "../../store/services/categoryServices";
@@ -20,7 +22,15 @@ const CreateProduct = () => {
   const handleInput = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
-  console.log(data, isFetching);
+  const saveColors = (color) => {
+    const filtered = state.colors.filter((clr) => clr.color !== color.hex);
+    setState({
+      ...state,
+      colors: [...filtered, { color: color.hex, id: uuidv4() }],
+    });
+    
+  };
+  console.log(state.colors);
   return (
     <Wrapper>
       <ScreenHeader>
@@ -116,7 +126,7 @@ const CreateProduct = () => {
               <label htmlFor="colors" className="label">
                 choose colors
               </label>
-              {/* <TwitterPicker onChangeComplete={saveColors} /> */}
+              <TwitterPicker onChangeComplete={saveColors} />
             </div>
             <div className="w-full p-3">
               <label htmlFor="sizes" className="label">

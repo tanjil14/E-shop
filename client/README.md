@@ -13,4 +13,4 @@
 - create table for show data and latest data visible by using redux refetch
 - implement pagination logic in client side
 - create product page for create product
-- add color picker using **React Colo**
+- add color picker using **React Colo** and use uuid for unique id
