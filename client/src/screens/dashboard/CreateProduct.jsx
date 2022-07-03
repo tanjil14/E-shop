@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import ScreenHeader from "../../components/ScreenHeader";
+import Spinner from "../../components/Spinner";
+import { useAllCategoriesQuery } from "../../store/services/categoryServices";
 import Wrapper from "./Wrapper";
-
 const CreateProduct = () => {
+  const { data = [], isFetching } = useAllCategoriesQuery();
+  console.log(data, isFetching);
   return (
     <Wrapper>
       <ScreenHeader>
@@ -65,11 +68,24 @@ const CreateProduct = () => {
               <label htmlFor="categories" className="label">
                 categories
               </label>
-              <select name="category" id="categories" className="form-control">
-                <option value="">ghjkl</option>
-                <option value="">ghjkl</option>
-                <option value="">ghjkl</option>
-              </select>
+              {!isFetching ? (
+                data?.categories?.length > 0 && (
+                  <select
+                    name="category"
+                    id="categories"
+                    className="form-control"
+                  >
+                    <option value="">Choose category</option>
+                    {data?.categories?.map((category) => (
+                      <option value={category.name} key={category._id}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
+                )
+              ) : (
+                <Spinner />
+              )}
             </div>
             <div className="w-full md:w-6/12 p-3">
               <label htmlFor="colors" className="label">
@@ -133,9 +149,7 @@ const CreateProduct = () => {
             </div>
           </div>
         </form>
-        <div className="w-full xl:w-4/12 p-3">
-
-        </div>
+        <div className="w-full xl:w-4/12 p-3"></div>
       </div>
     </Wrapper>
   );
