@@ -3,6 +3,7 @@ import { TwitterPicker } from "react-color";
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import Colors from "../../components/Colors";
+import ImagesPreview from "../../components/ImagesPreview";
 import ScreenHeader from "../../components/ScreenHeader";
 import SizesList from "../../components/SizesList";
 import Spinner from "../../components/Spinner";
@@ -34,6 +35,21 @@ const CreateProduct = () => {
     image3: "",
   });
   const [sizeList, setSizeList] = useState([]);
+  const [preview, setPreview] = useState({
+    image1: "",
+    image2: "",
+    image3: "",
+  });
+  const imageHandle = (e) => {
+    if (e.target.files.length !== 0) {
+      setState({ ...state, [e.target.name]: e.target.files[0] });
+      const render = new FileReader();
+      render.onloadend = () => {
+        setPreview({ ...preview, [e.target.name]: render.result });
+      };
+      render.readAsDataURL(e.target.files[0]);
+    }
+  };
   const handleInput = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
@@ -56,7 +72,6 @@ const CreateProduct = () => {
     const filtered = sizeList.filter((size) => size.name !== name);
     setSizeList(filtered);
   };
-  console.log(sizeList)
   return (
     <Wrapper>
       <ScreenHeader>
@@ -182,6 +197,7 @@ const CreateProduct = () => {
                 name="image1"
                 id="image1"
                 className="input-file"
+                onChange={imageHandle}
               />
             </div>
             <div className="w-full p-3">
@@ -193,6 +209,7 @@ const CreateProduct = () => {
                 name="image2"
                 id="image2"
                 className="input-file"
+                onChange={imageHandle}
               />
             </div>
             <div className="w-full p-3">
@@ -204,6 +221,7 @@ const CreateProduct = () => {
                 name="image3"
                 id="image3"
                 className="input-file"
+                onChange={imageHandle}
               />
             </div>
             <div className="w-full p-3">
@@ -225,6 +243,9 @@ const CreateProduct = () => {
         <div className="w-full xl:w-4/12 p-3">
           <Colors colors={state.colors} deleteColor={deleteColor} />
           <SizesList list={sizeList} deleteSize={deleteSize} />
+          <ImagesPreview url={preview.image1} heading="image 1"/>
+          <ImagesPreview url={preview.image2} heading="image 2"/>
+          <ImagesPreview url={preview.image3} heading="image 3"/>
         </div>
       </div>
     </Wrapper>
