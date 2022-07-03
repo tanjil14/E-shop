@@ -3,6 +3,7 @@ const express = require("express");
 const connect = require("./config/db");
 const authRoutes = require("./routes/auth");
 const categoryRoutes = require("./routes/categoryRoutes");
+const productRoutes = require("./routes/productRoutes");
 const env = require("./config/envConfig");
 const app = express();
 app.get("/", (req, res) => {
@@ -16,6 +17,7 @@ app.use(express.json());
 
 app.use("/api", authRoutes);
 app.use("/api", categoryRoutes);
+app.use("/api", productRoutes);
 app.listen(port, () => {
   connect();
   console.log(`Server is running at port number: ${port}`);

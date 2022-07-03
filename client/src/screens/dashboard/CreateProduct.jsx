@@ -81,6 +81,7 @@ const CreateProduct = () => {
     setSizeList(filtered);
   };
   const [createNewProduct, response] = useCreateProductMutation();
+  console.log(response);
   const handleSubmit = (e) => {
     e.preventDefault();
     setState({ ...state, description: content, sizes: sizeList });

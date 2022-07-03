@@ -14,3 +14,4 @@
 - implement pagination logic in client side
 - create product page for create product
 - add color picker using **React Colo** and use uuid for unique id
+- for image use **formidable** in backend
