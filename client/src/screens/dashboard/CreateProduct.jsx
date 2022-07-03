@@ -30,7 +30,10 @@ const CreateProduct = () => {
       colors: [...filtered, { color: color.hex, id: uuidv4() }],
     });
   };
-  console.log(state.colors);
+  const deleteColor = (color) => {
+    const filtered = state.colors.filter((clr) => clr.color !== color.color);
+    setState({ ...state, colors: filtered });
+  };
   return (
     <Wrapper>
       <ScreenHeader>
@@ -185,7 +188,7 @@ const CreateProduct = () => {
           </div>
         </form>
         <div className="w-full xl:w-4/12 p-3">
-          <Colors colors={state.colors} />
+          <Colors colors={state.colors} deleteColor={deleteColor} />
         </div>
       </div>
     </Wrapper>
