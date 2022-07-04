@@ -44,7 +44,7 @@ const Products = () => {
                 <th className="table-header">price</th>
                 <th className="table-header">stock</th>
                 <th className="table-header">image</th>
-                <th className="table-header">edit</th>
+                <th className="table-header ">edit</th>
                 <th className="table-header">delete</th>
               </tr>
             </thead>
@@ -52,11 +52,13 @@ const Products = () => {
               {data?.products?.map(product=>(
                 <tr className="odd:bg-gray-800" key={product._id}>
                   <td className="table-data">{product.title}</td>
-                  <td className="table-data">{product.price}</td>
+                  <td className="table-data">{product.price}.00</td>
                   <td className="table-data">{product.stock}</td>
-                  <td className="table-data">{product.title}</td>
-                  <td className="table-data">edit</td>
-                  <td className="table-data">delete</td>
+                  <td className="table-data">
+                    <img src={`/images/${product.image1}`} alt="img name" className="w-10 h-10 object-cover rounded-full" />
+                  </td>
+                  <td className="table-data"><Link to={`/dashboard/edit-product/${product._id}`} className="btn btn-warning">edit</Link></td>
+                  <td className="table-data"><span className="btn btn-danger cursor-pointer">delete</span></td>
                 </tr>
               ))}
             </tbody>
