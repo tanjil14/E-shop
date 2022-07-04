@@ -3,6 +3,7 @@
 @import "./styles/buttons.css";
 @import "./styles/form.css";
 @import "./styles/style.css";
+@import "./styles/table.css";
 @import "tailwindcss/utilities";
 /* 
 @layer components {

@@ -31,6 +31,7 @@ const productServices = createApi({
             method: "GET",
           };
         },
+        invalidatesTags: ["products"],
       }),
     };
   },

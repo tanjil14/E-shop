@@ -1,0 +1,9 @@
+.table-row {
+  @apply border-b border-gray-800 text-left;
+}
+.table-header {
+  @apply p-3 uppercase text-sm font-medium text-gray-500;
+}
+.table-data {
+  @apply p-3 capitalize text-sm font-normal text-gray-400;
+}

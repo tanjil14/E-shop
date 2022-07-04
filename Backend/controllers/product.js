@@ -94,3 +94,18 @@ module.exports.createProduct = async (req, res) => {
     }
   });
 };
+module.exports.getProductsByPage = async (req, res) => {
+  const currentPage = parseInt(req.params.page) || 1;
+  const perPage = 5;
+  const skip = currentPage * perPage - perPage;
+  try {
+    const count = await Products.find({}).countDocuments();
+    const response = await Products.find({})
+      .skip(skip)
+      .limit(perPage)
+      .sort({ updatedAt: -1 });
+    return res.status(200).json({ products: response, perPage, count });
+  } catch (error) {
+    return res.status(500).json("Server internal error!");
+  }
+};
