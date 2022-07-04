@@ -17,7 +17,6 @@ const productServices = createApi({
       createProduct: builder.mutation({
         
         query: (data) => {
-          console.log(data)
           return {
             url: "create-product",
             method: "POST",

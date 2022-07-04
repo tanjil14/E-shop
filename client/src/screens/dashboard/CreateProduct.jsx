@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TwitterPicker } from "react-color";
-import { Link } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import Colors from "../../components/Colors";
 import ImagesPreview from "../../components/ImagesPreview";
@@ -8,6 +10,7 @@ import RichTextEditor from "../../components/RichTextEditor";
 import ScreenHeader from "../../components/ScreenHeader";
 import SizesList from "../../components/SizesList";
 import Spinner from "../../components/Spinner";
+import { setSuccess } from "../../store/reducers/globalReducer";
 import { useAllCategoriesQuery } from "../../store/services/categoryServices";
 import { useCreateProductMutation } from "../../store/services/productServices";
 import Wrapper from "./Wrapper";
@@ -25,10 +28,7 @@ const sizes = [
 ];
 const CreateProduct = () => {
   const [content, setContent] = useState("");
-  // const config = useMemo({
-  // 	readonly: false ,
-  // 	placeholder: 'Start typings...'
-  // })
+
   const { data = [], isFetching } = useAllCategoriesQuery();
 
   const [state, setState] = useState({
@@ -81,19 +81,31 @@ const CreateProduct = () => {
     setSizeList(filtered);
   };
   const [createNewProduct, response] = useCreateProductMutation();
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('data', JSON.stringify(state));
-    formData.append('sizes', JSON.stringify(sizeList));
-    formData.append('description', content)
-    formData.append('image1', state.image1)
-    formData.append('image2', state.image2)
-    formData.append('image3', state.image3)
+    formData.append("data", JSON.stringify(state));
+    formData.append("sizes", JSON.stringify(sizeList));
+    formData.append("description", content);
+    formData.append("image1", state.image1);
+    formData.append("image2", state.image2);
+    formData.append("image3", state.image3);
     createNewProduct(formData);
   };
-  console.log(response);
+  useEffect(() => {
+    if (!response.isSuccess) {
+      response?.error?.data?.errors?.map((err) => toast.error(err.msg));
+    }
+  }, [response?.error?.data?.errors]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (response?.isSuccess) {
+      dispatch(setSuccess(response?.data?.msg));
+      navigate("/dashboard/products");
+    }
+  }, [response?.isSuccess]);
   return (
     <Wrapper>
       <ScreenHeader>
@@ -101,6 +113,7 @@ const CreateProduct = () => {
           <i className="bi bi-arrow-left-short"></i> proudcts list
         </Link>
       </ScreenHeader>
+      <Toaster position="top-right" reverseOrder="true" />
       <div className="flex flex-wrap -mx-3">
         <form className="w-full xl:w-8/12 p-3" onSubmit={handleSubmit}>
           <div className="flex flex-wrap">
@@ -250,21 +263,13 @@ const CreateProduct = () => {
               <label htmlFor="description" className="label">
                 Description
               </label>
-              {/* <ReactQuill
-                theme="snow"
-                id="description"
-                value={value}
-                onChange={setValue}
-                placeholder="Description..."
-              /> */}
               <RichTextEditor content={content} setContent={setContent} />
             </div>
             <div className="w-full p-3">
               <input
                 type="submit"
-                value="Sub"
-                // value={response.isLoading ? "loading..." : "save product"}
-                // disabled={response.isLoading ? true : false}
+                value={response.isLoading ? "loading..." : "save product"}
+                disabled={response.isLoading ? true : false}
                 className="btn btn-indigo"
               />
             </div>
