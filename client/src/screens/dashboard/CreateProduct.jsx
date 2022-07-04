@@ -81,17 +81,19 @@ const CreateProduct = () => {
     setSizeList(filtered);
   };
   const [createNewProduct, response] = useCreateProductMutation();
-  console.log(response);
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    setState({ ...state, description: content, sizes: sizeList });
     const formData = new FormData();
-    formData.append("data", JSON.stringify(state));
-    formData.append("image1", state.image1);
-    formData.append("image2", state.image2);
-    formData.append("image3", state.image3);
+    formData.append('data', JSON.stringify(state));
+    formData.append('sizes', JSON.stringify(sizeList));
+    formData.append('description', content)
+    formData.append('image1', state.image1)
+    formData.append('image2', state.image2)
+    formData.append('image3', state.image3)
     createNewProduct(formData);
   };
+  console.log(response);
   return (
     <Wrapper>
       <ScreenHeader>
@@ -260,6 +262,7 @@ const CreateProduct = () => {
             <div className="w-full p-3">
               <input
                 type="submit"
+                value="Sub"
                 // value={response.isLoading ? "loading..." : "save product"}
                 // disabled={response.isLoading ? true : false}
                 className="btn btn-indigo"

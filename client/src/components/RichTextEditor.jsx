@@ -8,7 +8,7 @@ const RichTextEditor = ({  content, setContent }) => {
       value={content}
       tabIndex={1}
       onBlur={(newContent) => setContent(newContent)}
-      onChange={(newContent) => setContent(newContent)}
+      // onChange={(newContent) => setContent(newContent)}
     />
   );
 };

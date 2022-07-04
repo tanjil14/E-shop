@@ -1,5 +1,4 @@
 const SizesList = ({ list, deleteSize }) => {
-    console.log(list)
   return (
     list.length > 0 && (
       <>

@@ -15,3 +15,4 @@
 - create product page for create product
 - add color picker using **React Colo** and use uuid for unique id
 - for image use **formidable** in backend
+- custom validation in backend and upload image in client dir
