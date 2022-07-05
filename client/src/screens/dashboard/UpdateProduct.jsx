@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { TwitterPicker } from "react-color";
 import { Link, useParams } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 import Colors from "../../components/Colors";
 import RichTextEditor from "../../components/RichTextEditor";
 import ScreenHeader from "../../components/ScreenHeader";
@@ -14,6 +15,7 @@ const UpdateProduct = () => {
   const { id } = useParams();
   console.log(id);
   const { data: product, isFetching: fetching } = useGetProductsByIdQuery(id);
+  console.log(product);
   const { data = [], isFetching } = useGetCategoryQuery();
   console.log(data);
   const [content, setContent] = useState("");
@@ -26,21 +28,37 @@ const UpdateProduct = () => {
     colors: [],
   });
   const [sizeList, setSizeList] = useState([]);
-  const handleInput = (e) => {};
-  const saveColors = (e) => {};
-  const chooseSize = () => {};
-  const deleteColor = () => {};
-  const deleteSize = () => {};
- const handleSubmit=()=>{
+  const handleInput = (e) => {
+    setState({...state, [e.target.name]: e.target.value})
+  };
+  const saveColors = (color) => {
+    const filtered = state.colors.filter((clr) => clr.color !== color.hex);
+    setState({
+      ...state,
+      colors: [...filtered, { color: color.hex, id: uuidv4() }],
+    });
+  };
+  const deleteColor = (color) => {
+    const filtered = state.colors.filter((clr) => clr.color !== color.color);
+    setState({ ...state, colors: filtered });
+  };
+  const chooseSize = (sizeObject) => {
+    const filtered = sizeList.filter((size) => size.name !== sizeObject.name);
+    setSizeList([...filtered, sizeObject]);
+  };
+  const deleteSize = (name) => {
+    const filtered = sizeList.filter((size) => size.name !== name);
+    setSizeList(filtered);
+  };
 
-  }
-  useEffect(()=>{
-    if(!fetching){
-        setState(product)
-        setSizeList(product.sizes)
-        // setContent(parse())
+  const handleSubmit = () => {};
+  useEffect(() => {
+    if (!fetching) {
+      setState(product);
+      setSizeList(product.sizes);
+      // setContent(parse())
     }
-  },[product])
+  }, [product]);
   return (
     <Wrapper>
       <ScreenHeader>
@@ -167,8 +185,8 @@ const UpdateProduct = () => {
               <div className="w-full p-3">
                 <input
                   type="submit"
-                //   value={response.isLoading ? "loading..." : "save product"}
-                //   disabled={response.isLoading ? true : false}
+                  //   value={response.isLoading ? "loading..." : "save product"}
+                  //   disabled={response.isLoading ? true : false}
                   className="btn btn-indigo"
                 />
               </div>
