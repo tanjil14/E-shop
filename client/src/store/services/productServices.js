@@ -33,9 +33,21 @@ const productServices = createApi({
         },
         invalidatesTags: ["products"],
       }),
+      getProductsById: builder.query({
+        query: (id) => {
+          return {
+            url: `product/${id}`,
+            method: "GET",
+          };
+        },
+        invalidatesTags: ["products"],
+      }),
     };
   },
 });
-export const { useCreateProductMutation, useGetProductsByPageQuery } =
-  productServices;
+export const {
+  useCreateProductMutation,
+  useGetProductsByPageQuery,
+  useGetProductsByIdQuery,
+} = productServices;
 export default productServices;

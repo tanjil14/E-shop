@@ -14,7 +14,7 @@ import { setSuccess } from "../../store/reducers/globalReducer";
 import { useAllCategoriesQuery } from "../../store/services/categoryServices";
 import { useCreateProductMutation } from "../../store/services/productServices";
 import Wrapper from "./Wrapper";
-const sizes = [
+export const sizes = [
   { name: "xsm" },
   { name: "sm" },
   { name: "md" },

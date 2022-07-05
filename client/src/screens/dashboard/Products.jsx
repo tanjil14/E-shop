@@ -57,7 +57,7 @@ const Products = () => {
                   <td className="table-data">
                     <img src={`/images/${product.image1}`} alt="img name" className="w-10 h-10 object-cover rounded-full" />
                   </td>
-                  <td className="table-data"><Link to={`/dashboard/edit-product/${product._id}`} className="btn btn-warning">edit</Link></td>
+                  <td className="table-data"><Link to={`/dashboard/update-product/${product._id}`} className="btn btn-warning">edit</Link></td>
                   <td className="table-data"><span className="btn btn-danger cursor-pointer">delete</span></td>
                 </tr>
               ))}
