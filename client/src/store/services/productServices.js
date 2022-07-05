@@ -59,5 +59,6 @@ export const {
   useCreateProductMutation,
   useGetProductsByPageQuery,
   useGetProductsByIdQuery,
+  useUpdateProductMutation
 } = productServices;
 export default productServices;

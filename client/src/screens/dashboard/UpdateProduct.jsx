@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { TwitterPicker } from "react-color";
-import parse from 'html-react-parser';
 import { Link, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import Colors from "../../components/Colors";
@@ -9,7 +8,10 @@ import ScreenHeader from "../../components/ScreenHeader";
 import SizesList from "../../components/SizesList";
 import Spinner from "../../components/Spinner";
 import { useGetCategoryQuery } from "../../store/services/categoryServices";
-import { useGetProductsByIdQuery } from "../../store/services/productServices";
+import {
+  useGetProductsByIdQuery,
+  useUpdateProductMutation,
+} from "../../store/services/productServices";
 import { sizes } from "./CreateProduct";
 import Wrapper from "./Wrapper";
 const UpdateProduct = () => {
@@ -30,7 +32,7 @@ const UpdateProduct = () => {
   });
   const [sizeList, setSizeList] = useState([]);
   const handleInput = (e) => {
-    setState({...state, [e.target.name]: e.target.value})
+    setState({ ...state, [e.target.name]: e.target.value });
   };
   const saveColors = (color) => {
     const filtered = state.colors.filter((clr) => clr.color !== color.hex);
@@ -51,19 +53,25 @@ const UpdateProduct = () => {
     const filtered = sizeList.filter((size) => size.name !== name);
     setSizeList(filtered);
   };
-
+  const [updateProduct, response] = useUpdateProductMutation();
   const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(state)
+    e.preventDefault();
+    const data = {
+      ...state,
+      description: content,
+      sizes: sizeList,
+    };
+    updateProduct(data);
+    setState(data);
   };
   useEffect(() => {
     if (!fetching) {
       setState(product);
       setSizeList(product.sizes);
-      setContent(product.description)
+      setContent(product.description);
     }
   }, [product]);
-  
+
   return (
     <Wrapper>
       <ScreenHeader>
@@ -75,7 +83,9 @@ const UpdateProduct = () => {
       {!fetching ? (
         <div className="flex flex-wrap -mx-3">
           <form className="w-full xl:w-8/12 p-3" onSubmit={handleSubmit}>
-          <h3 className="pl-3 capitalize text-lg font-medium text-gray-400">edit product</h3>
+            <h3 className="pl-3 capitalize text-lg font-medium text-gray-400">
+              edit product
+            </h3>
             <div className="flex flex-wrap">
               <div className="w-full md:w-6/12 p-3">
                 <label htmlFor="title" className="label">

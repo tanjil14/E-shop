@@ -6,19 +6,19 @@ module.exports = [
     .trim()
     .escape()
     .withMessage("title is required"),
-  body("price").trim().escape().withMessage("required"),
-  body("discount").trim().escape().withMessage("required"),
-  body("category")
-    .not()
-    .isEmpty()
-    .trim()
-    .escape()
-    .withMessage("category is required"),
-  body("description")
-    .not()
-    .isEmpty()
-    .trim()
-    .escape()
-    .withMessage("description is required"),
-  body("stock").not().trim().escape().withMessage("required"),
+  // body("price").not().isEmpty().trim().escape().withMessage("Is "),
+  // body("discount").isEmpty().trim().escape().withMessage("required"),
+  // body("category")
+  //   .not()
+  //   .isEmpty()
+  //   .trim()
+  //   .escape()
+  //   .withMessage("category is required"),
+  // body("description")
+  //   .not()
+  //   .isEmpty()
+  //   .trim()
+  //   .escape()
+  //   .withMessage("description is required"),
+  // body("stock").not().isEmpty().trim().escape().withMessage("required"),
 ];
