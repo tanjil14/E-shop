@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import Pagination from "../../components/Pagination";
 import ScreenHeader from "../../components/ScreenHeader";
 import Spinner from "../../components/Spinner";
 import { clearMessage } from "../../store/reducers/globalReducer";
@@ -63,6 +64,12 @@ const Products = () => {
               ))}
             </tbody>
             </table>
+            <Pagination
+              page={parseInt(page)}
+              perPage={data.perPage}
+              count={data.count}
+              path="dashboard/products"
+            />
           </div>
         ) : (
           "No products"

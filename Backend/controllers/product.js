@@ -119,7 +119,8 @@ module.exports.getProductById = async (req, res) => {
     ]);
     return res.status(200).json(product);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
     console.log(error.message);
+    return res.status(500).json({ error: error.message });
+    
   }
 };

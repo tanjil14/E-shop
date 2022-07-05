@@ -11,7 +11,6 @@ const Pagination = ({ page, count, perPage, path }) => {
   if (startLoop <= 0) {
     startLoop = 1;
   }
-  console.log(startLoop, endLoop);
   const links = () => {
     const allLinks = [];
     for (let i = startLoop; i <= endLoop; i++) {
