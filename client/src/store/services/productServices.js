@@ -24,6 +24,16 @@ const productServices = createApi({
         },
         invalidatesTags: ["products"],
       }),
+      updateProduct: builder.mutation({
+        query: (data) => {
+          return {
+            url: "update-product",
+            method: "PUT",
+            body: data,
+          };
+        },
+        invalidatesTags: ["products"],
+      }),
       getProductsByPage: builder.query({
         query: (page) => {
           return {

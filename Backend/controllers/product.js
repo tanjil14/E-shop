@@ -1,4 +1,5 @@
 const formidable = require("formidable");
+const { validationResult } = require("express-validator");
 const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
 const path = require("path");
@@ -121,6 +122,43 @@ module.exports.getProductById = async (req, res) => {
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({ error: error.message });
-    
+  }
+};
+module.exports.updateProduct = async (req, res) => {
+  const errors = validationResult(req);
+  if (errors.isEmpty()) {
+    try {
+      const {
+        _id,
+        title,
+        price,
+        discount,
+        stock,
+        colors,
+        sizes,
+        description,
+        category,
+      } = req.body;
+      const response = await Products.updateOne(
+        { _id },
+        {
+          $set: {
+            title,
+            price,
+            discount,
+            stock,
+            category,
+            colors,
+            sizes,
+            description,
+          },
+        }
+      );
+      return res.status(200).json({ msg: "Product has updated", response });
+    } catch (error) {
+      return res.status(500).json({ errors: error });
+    }
+  } else {
+    return res.status(400).json({ errors: errors.array() });
   }
 };

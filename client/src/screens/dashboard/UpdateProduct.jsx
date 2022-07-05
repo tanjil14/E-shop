@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { TwitterPicker } from "react-color";
+import parse from 'html-react-parser';
 import { Link, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import Colors from "../../components/Colors";
@@ -51,14 +52,18 @@ const UpdateProduct = () => {
     setSizeList(filtered);
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(state)
+  };
   useEffect(() => {
     if (!fetching) {
       setState(product);
       setSizeList(product.sizes);
-      // setContent(parse())
+      setContent(product.description)
     }
   }, [product]);
+  
   return (
     <Wrapper>
       <ScreenHeader>
@@ -70,6 +75,7 @@ const UpdateProduct = () => {
       {!fetching ? (
         <div className="flex flex-wrap -mx-3">
           <form className="w-full xl:w-8/12 p-3" onSubmit={handleSubmit}>
+          <h3 className="pl-3 capitalize text-lg font-medium text-gray-400">edit product</h3>
             <div className="flex flex-wrap">
               <div className="w-full md:w-6/12 p-3">
                 <label htmlFor="title" className="label">

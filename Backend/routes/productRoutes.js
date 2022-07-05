@@ -7,6 +7,7 @@ const {
 const { authorization } = require("../services/authorization");
 const router = express.Router();
 router.post("/create-product", authorization, createProduct);
+router.post("/update-product/:id", authorization, updateProduct);
 router.get("/products/:page", authorization, getProductsByPage);
 router.get("/product/:id", authorization, getProductById);
 
