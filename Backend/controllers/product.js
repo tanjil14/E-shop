@@ -124,7 +124,7 @@ module.exports.getProductById = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
-module.exports.updateProduct = async (req, res) => {
+module.exports.updateProduct = async (req, res,next) => {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
     try {
