@@ -6,7 +6,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import Colors from "../../components/Colors";
 import ImagesPreview from "../../components/ImagesPreview";
-import RichTextEditor from "../../components/RichTextEditor";
 import ScreenHeader from "../../components/ScreenHeader";
 import SizesList from "../../components/SizesList";
 import Spinner from "../../components/Spinner";
@@ -14,23 +13,9 @@ import { setSuccess } from "../../store/reducers/globalReducer";
 import { useAllCategoriesQuery } from "../../store/services/categoryServices";
 import { useCreateProductMutation } from "../../store/services/productServices";
 import Wrapper from "./Wrapper";
-export const sizes = [
-  { name: "xsm" },
-  { name: "sm" },
-  { name: "md" },
-  { name: "lg" },
-  { name: "xl" },
-  { name: "1 year" },
-  { name: "2 years" },
-  { name: "3 years" },
-  { name: "4 years" },
-  { name: "5 years" },
-];
 const CreateProduct = () => {
-  const [content, setContent] = useState("");
-
   const { data = [], isFetching } = useAllCategoriesQuery();
-
+  const [value, setValue] = useState("");
   const [state, setState] = useState({
     title: "",
     price: 0,
@@ -42,6 +27,18 @@ const CreateProduct = () => {
     image2: "",
     image3: "",
   });
+  const [sizes] = useState([
+    { name: "xsm" },
+    { name: "sm" },
+    { name: "md" },
+    { name: "lg" },
+    { name: "xl" },
+    { name: "1 year" },
+    { name: "2 years" },
+    { name: "3 years" },
+    { name: "4 years" },
+    { name: "5 years" },
+  ]);
   const [sizeList, setSizeList] = useState([]);
   const [preview, setPreview] = useState({
     image1: "",
@@ -51,11 +48,11 @@ const CreateProduct = () => {
   const imageHandle = (e) => {
     if (e.target.files.length !== 0) {
       setState({ ...state, [e.target.name]: e.target.files[0] });
-      const render = new FileReader();
-      render.onloadend = () => {
-        setPreview({ ...preview, [e.target.name]: render.result });
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview({ ...preview, [e.target.name]: reader.result });
       };
-      render.readAsDataURL(e.target.files[0]);
+      reader.readAsDataURL(e.target.files[0]);
     }
   };
   const handleInput = (e) => {
@@ -72,22 +69,22 @@ const CreateProduct = () => {
     const filtered = state.colors.filter((clr) => clr.color !== color.color);
     setState({ ...state, colors: filtered });
   };
-  const chooseSize = (sizeObj) => {
-    const filtered = sizeList.filter((size) => size.name !== sizeObj.name);
-    setSizeList([...filtered, sizeObj]);
+  const chooseSize = (sizeObject) => {
+    const filtered = sizeList.filter((size) => size.name !== sizeObject.name);
+    setSizeList([...filtered, sizeObject]);
   };
   const deleteSize = (name) => {
     const filtered = sizeList.filter((size) => size.name !== name);
     setSizeList(filtered);
   };
   const [createNewProduct, response] = useCreateProductMutation();
-
-  const handleSubmit = (e) => {
+  console.log("Your response", response);
+  const createPro = (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("data", JSON.stringify(state));
     formData.append("sizes", JSON.stringify(sizeList));
-    formData.append("description", content);
+    formData.append("description", value);
     formData.append("image1", state.image1);
     formData.append("image2", state.image2);
     formData.append("image3", state.image3);
@@ -95,9 +92,9 @@ const CreateProduct = () => {
   };
   useEffect(() => {
     if (!response.isSuccess) {
-      response?.error?.data?.errors?.map((err) => toast.error(err.msg));
+      response?.error?.data?.errors.map((err) => toast.error(err.msg));
     }
-  }, [response?.error?.data?.errors]);
+  }, [response?.error?.data?.errors, response.isSuccess]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
@@ -113,9 +110,9 @@ const CreateProduct = () => {
           <i className="bi bi-arrow-left-short"></i> proudcts list
         </Link>
       </ScreenHeader>
-      <Toaster position="top-right" reverseOrder="true" />
+      <Toaster position="top-right" reverseOrder={true} />
       <div className="flex flex-wrap -mx-3">
-        <form className="w-full xl:w-8/12 p-3" onSubmit={handleSubmit}>
+        <form className="w-full xl:w-8/12 p-3" onSubmit={createPro}>
           <div className="flex flex-wrap">
             <div className="w-full md:w-6/12 p-3">
               <label htmlFor="title" className="label">
@@ -127,8 +124,8 @@ const CreateProduct = () => {
                 className="form-control"
                 id="title"
                 placeholder="title..."
-                value={state.title}
                 onChange={handleInput}
+                value={state.title}
               />
             </div>
             <div className="w-full md:w-6/12 p-3">
@@ -141,8 +138,8 @@ const CreateProduct = () => {
                 className="form-control"
                 id="price"
                 placeholder="price..."
-                value={state.price}
                 onChange={handleInput}
+                value={state.price}
               />
             </div>
             <div className="w-full md:w-6/12 p-3">
@@ -155,8 +152,8 @@ const CreateProduct = () => {
                 className="form-control"
                 id="discount"
                 placeholder="discount..."
-                value={state.discount}
                 onChange={handleInput}
+                value={state.discount}
               />
             </div>
             <div className="w-full md:w-6/12 p-3">
@@ -169,8 +166,8 @@ const CreateProduct = () => {
                 className="form-control"
                 id="stock"
                 placeholder="stock..."
-                value={state.stock}
                 onChange={handleInput}
+                value={state.stock}
               />
             </div>
             <div className="w-full md:w-6/12 p-3">
@@ -183,8 +180,8 @@ const CreateProduct = () => {
                     name="category"
                     id="categories"
                     className="form-control"
-                    value={state.category}
                     onChange={handleInput}
+                    value={state.category}
                   >
                     <option value="">Choose category</option>
                     {data?.categories?.map((category) => (
@@ -204,11 +201,12 @@ const CreateProduct = () => {
               </label>
               <TwitterPicker onChangeComplete={saveColors} />
             </div>
+
             <div className="w-full p-3">
               <label htmlFor="sizes" className="label">
                 choose sizes
               </label>
-              {sizes && (
+              {sizes.length > 0 && (
                 <div className="flex flex-wrap -mx-3">
                   {sizes.map((size) => (
                     <div
@@ -222,7 +220,6 @@ const CreateProduct = () => {
                 </div>
               )}
             </div>
-
             <div className="w-full p-3">
               <label htmlFor="image1" className="label">
                 Image 1
@@ -235,6 +232,7 @@ const CreateProduct = () => {
                 onChange={imageHandle}
               />
             </div>
+
             <div className="w-full p-3">
               <label htmlFor="image2" className="label">
                 Image 2
@@ -247,6 +245,7 @@ const CreateProduct = () => {
                 onChange={imageHandle}
               />
             </div>
+
             <div className="w-full p-3">
               <label htmlFor="image3" className="label">
                 Image 3
@@ -263,7 +262,14 @@ const CreateProduct = () => {
               <label htmlFor="description" className="label">
                 Description
               </label>
-              <RichTextEditor content={content} setContent={setContent} />
+              <input
+                id="description"
+                value={value}
+                className="form-control"
+                type="textarea"
+                onChange={(e) => setValue(e.target.value)}
+                placeholder="Description..."
+              />
             </div>
             <div className="w-full p-3">
               <input
@@ -286,5 +292,4 @@ const CreateProduct = () => {
     </Wrapper>
   );
 };
-
 export default CreateProduct;
