@@ -17,7 +17,7 @@ app.use(express.json());
 
 app.use("/api", authRoutes);
 app.use("/api", categoryRoutes);
-app.use("/api", productRoutes);
+app.use("/api", productRoutes)
 app.listen(port, () => {
   connect();
   console.log(`Server is running at port number: ${port}`);

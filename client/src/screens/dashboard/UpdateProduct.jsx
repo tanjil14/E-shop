@@ -1,12 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { TwitterPicker } from "react-color";
-import { Link, useParams } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import Colors from "../../components/Colors";
 import RichTextEditor from "../../components/RichTextEditor";
 import ScreenHeader from "../../components/ScreenHeader";
 import SizesList from "../../components/SizesList";
 import Spinner from "../../components/Spinner";
+import { setSuccess } from "../../store/reducers/globalReducer";
 import { useGetCategoryQuery } from "../../store/services/categoryServices";
 import {
   useGetProductsByIdQuery,
@@ -64,6 +68,7 @@ const UpdateProduct = () => {
     updateProduct(data);
     setState(data);
   };
+  console.log(response)
   useEffect(() => {
     if (!fetching) {
       setState(product);
@@ -71,7 +76,19 @@ const UpdateProduct = () => {
       setContent(product.description);
     }
   }, [product]);
-
+  useEffect(() => {
+    if (!response.isSuccess) {
+      response?.error?.data?.errors?.map((err) => toast.error(err.msg));
+    }
+  }, [response?.error?.data?.errors]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (response?.isSuccess) {
+      dispatch(setSuccess(response?.data?.msg));
+      navigate("/dashboard/products");
+    }
+  }, [response?.isSuccess]);
   return (
     <Wrapper>
       <ScreenHeader>
