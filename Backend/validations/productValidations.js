@@ -6,7 +6,16 @@ module.exports = [
     .trim()
     .escape()
     .withMessage("title is required"),
-  // body("price").not().isEmpty().trim().escape().withMessage("Is "),
+  body("price")
+    .custom((value) => {
+      if (parseInt(value) < 1) {
+        throw new Error("Price should be above $1");
+      } else {
+        return parseInt(value);
+      }
+    })
+    .trim()
+    .escape(),
   // body("discount").isEmpty().trim().escape().withMessage("required"),
   // body("category")
   //   .not()
