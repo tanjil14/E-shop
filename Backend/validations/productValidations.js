@@ -16,7 +16,7 @@ module.exports = [
     })
     .trim()
     .escape(),
-  // body("discount").isEmpty().trim().escape().withMessage("required"),
+  body("discount").isEmpty().trim().escape().withMessage("required"),
   // body("category")
   //   .not()
   //   .isEmpty()
